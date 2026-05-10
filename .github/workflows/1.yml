@@ -11,7 +11,7 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
-    environment: .env
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v5
@@ -29,6 +29,12 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Debug environment access
+        run: |
+          echo "job environment is attached"
+          [ -n "${{ secrets.TELEGRAM_BOT_TOKEN }}" ] && echo "BOT token exists" || echo "BOT token missing"
+          [ -n "${{ secrets.TELEGRAM_CHAT_ID }}" ] && echo "CHAT ID exists" || echo "CHAT ID missing"
 
       - name: Run notifier
         env:
